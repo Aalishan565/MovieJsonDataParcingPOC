@@ -75,7 +75,7 @@ public class DownloadData extends AsyncTask<String, String, List<MovieModel>> {
 		if(!result.isEmpty()){
 			listener.onMoviesListSuccess(result);
 		}else{
-			listener.onMoviesListSuccess("No Data Found.");
+			listener.onMoviesListFailure("No Data Found.");
 		}
 	}
 }
