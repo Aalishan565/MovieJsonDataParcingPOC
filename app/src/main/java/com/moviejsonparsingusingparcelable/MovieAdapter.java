@@ -1,7 +1,5 @@
 package com.moviejsonparsingusingparcelable;
 
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +9,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import java.util.List;
 
 public class MovieAdapter extends ArrayAdapter<MovieModel>{
 
@@ -31,7 +27,7 @@ public class MovieAdapter extends ArrayAdapter<MovieModel>{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = inflater.inflate(resource, null);
@@ -49,12 +45,7 @@ public class MovieAdapter extends ArrayAdapter<MovieModel>{
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-        .cacheInMemory(true).cacheOnDisk(true).build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-        .defaultDisplayImageOptions(options).build();
-        ImageLoader.getInstance().init(config);
-        ImageLoader.getInstance().displayImage(movieModelList.get(position).getInage(), viewHolder.ivIcon, options);
+        new ImageDownloadAsyncTask(viewHolder.ivIcon).execute(movieModelList.get(position).getInage());
         viewHolder.tvMovieName.setText(movieModelList.get(position).getMovie());
         viewHolder.tvTagline.setText(movieModelList.get(position).getTagline());
         viewHolder.tvYear.setText("Year :" + movieModelList.get(position).getYear());
